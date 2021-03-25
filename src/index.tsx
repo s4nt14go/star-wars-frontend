@@ -27,29 +27,7 @@ export const client = new ApolloClient({
     // @ts-ignore
     createSubscriptionHandshakeLink(_config),
   ]),
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          people: {
-            keyArgs: false,
-            // @ts-ignore
-            merge(existing, incoming, { args: { page = 1 }}) {
-              page = page - 1;
-              let people = existing && existing.people ? existing.people.slice(0) : [];
-              for (let i = 0; i < incoming.people.length; ++i) {
-                people[page*10 + i] = incoming.people[i];
-              }
-              return {
-                ...incoming,
-                people,
-              };
-            }
-          }
-        }
-      }
-    }
-  }),
+  cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: {
       fetchPolicy: "cache-and-network",

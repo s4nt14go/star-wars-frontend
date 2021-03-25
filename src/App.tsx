@@ -2,6 +2,7 @@ import React, {useRef, useState} from 'react';
 import './App.css';
 import chewbacca from './img/chewbacca.png';
 import { useQuery, gql } from '@apollo/client';
+import {client} from "./index";
 
 const PEOPLE = gql`
     query People ($page: String) {
@@ -46,6 +47,14 @@ function App() {
   async function goToPage(i:number) {
     setChangingPage(true);
     const variables = {page:(i+1).toString()};
+    const cache = client.readQuery({
+      query: PEOPLE,
+      variables,
+    });
+    if (cache) {
+      setPeople(cache.people.people);
+      setCurrPage(i);
+    }
     const more = await fetchMore({variables});
     setCurrPage(i);
     setPeople(more.data.people.people);
