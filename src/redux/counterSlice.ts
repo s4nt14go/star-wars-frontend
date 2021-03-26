@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect'
 import { AppThunk, RootState } from './store';
+import { loadState } from "./localStorage";
 
 interface CounterState {
   value: number;
@@ -12,7 +13,7 @@ export const defaultState = {
   addingAsync: false,
 };
 
-const initialState: CounterState = defaultState;
+const initialState: CounterState = loadState()?.counter || defaultState;
 
 export const counterSlice = createSlice({
   name: 'counter',
