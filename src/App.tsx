@@ -3,6 +3,7 @@ import './App.css';
 import { useQuery, gql } from '@apollo/client';
 import {client} from "./index";
 import Header from './components/Header';
+import Counter from "./redux/Counter";
 
 const PEOPLE = gql`
     query People ($page: String) {
@@ -71,6 +72,8 @@ function App() {
       <div className="container px-5 pb-12 mx-auto">
 
         <Header />
+
+        <Counter />
 
       <div className="bg-white overflow-hidden shadow sm:rounded-lg">
 

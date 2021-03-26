@@ -12,6 +12,8 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import config from './config';
+import { store } from './redux/store';
+import { Provider } from 'react-redux';
 
 const _config = {
   url: config.API as string,
@@ -37,9 +39,11 @@ export const client = new ApolloClient({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={client as any}>
-      <App />
-    </ApolloProvider>
+    <Provider store={store}>
+      <ApolloProvider client={client as any}>
+        <App />
+      </ApolloProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
