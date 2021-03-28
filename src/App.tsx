@@ -95,7 +95,7 @@ function App() {
             :
             loading && !state.currResults.length ?
               <p>Loading...</p>
-              :
+              :<>
               <div className="bg-white overflow-hidden shadow sm:rounded-lg">
 
                 <div className="flex flex-col">
@@ -152,13 +152,13 @@ function App() {
 
                 <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
                   <div className="flex-1 flex justify-between sm:hidden">
-                    {showPrevious() && <a href="#"
-                                          className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
+                    {showPrevious() && <a
+                                          className="cursor-pointer relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
                                           onClick={goToPrevious}>
                       Previous
                     </a>}
-                    {showNext() && <a href="#"
-                                      className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
+                    {showNext() && <a
+                                      className="cursor-pointer ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
                                       onClick={goToNext}>
                       Next
                     </a>}
@@ -176,14 +176,12 @@ function App() {
                         <span className="font-medium">{state.count}</span>
                         {' results'}
                       </p>
-                      <div
-                        className={`border-gray-200 ease-linear h-5 inline-block loader rounded-full w-5 align-bottom ml-2 ${state.fetching ? 'border-4 border-t-4' : ''}`}></div>
                     </div>
                     <div>
                       <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
                            aria-label="Pagination">
-                        {showPrevious() && <a href="#"
-                                              className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                        {showPrevious() && <a
+                                              className="cursor-pointer relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                                               onClick={goToPrevious}>
                           <span className="sr-only">Previous</span>
                           {/* Heroicon name: solid/chevron-left */}
@@ -196,13 +194,13 @@ function App() {
                         </a>}
 
                         {new Array(state.maxPage + 1).fill(0).map((e, i) => {
-                          return <a key={i} href="#"
-                                    className={"relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 " + (i === state.currPage ? 'bg-gray-200' : '')}
+                          return <a key={i}
+                                    className={"cursor-pointer relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 " + (i === state.currPage ? 'bg-gray-200' : '')}
                                     onClick={() => goToPage(i)}>{i + 1}</a>;
                         })}
 
-                        {showNext() && <a href="#"
-                                          className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                        {showNext() && <a
+                                          className="cursor-pointer relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                                           onClick={goToNext}>
                           <span className="sr-only">Next</span>
                           {/* Heroicon name: solid/chevron-right */}
@@ -220,7 +218,13 @@ function App() {
 
               </div>
 
-        }
+              <div className={`my-3 ${state.fetching? '' : 'hidden'}`}>
+                <p>Ongoing network fetch
+                  <div
+                    className={`border-gray-200 ease-linear h-5 inline-block loader rounded-full w-5 align-bottom ml-2 border-4 border-t-4'`}></div>
+                </p>
+              </div>
+        </>}
       </div>
 
     </div>
