@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-import { useQuery, gql } from '@apollo/client';
+import { useLazyQuery, gql } from '@apollo/client';
 import {client} from "./index";
 import Header from './components/Header';
 import Counter from "./redux/Counter";
 import {useDispatch, useSelector} from "react-redux";
-import {setFetching, setResults, selectPeopleState/*, setCurrPage*/} from "./redux/peopleSlice";
+import {setFetching, setResults, selectPeopleState, setCurrPage} from "./redux/peopleSlice";
 
 const PEOPLE = gql`
     query People ($page: String) {
@@ -24,50 +24,43 @@ const PEOPLE = gql`
 
 function App() {
 
-  const [ currPage, setCurrPage ] = useState(null as any);
+  const [ goingToPage, setGoingToPage ] = useState(null as any);
   const dispatch = useDispatch();
   const state = useSelector(selectPeopleState);
-  const initialQuery = useRef(true);
 
-  function setRedux({count, people: currResults, currPage }: {count:number, people:[object], currPage:number} ) {
-    console.log('setRedux currPage', currPage);
+  function setPeople({count, people: currResults }: {count:number, people:[object]} ) {
     dispatch(setResults({
       count,
       currResults,
-      currPage,
     }));
   }
 
   useEffect(()=>{
-    console.log('state', state);
     if (typeof state.currPage === 'number') {
-      console.log(`currPage se setea a ${state.currPage}`);
-      setCurrPage(state.currPage);
+      dispatch(setCurrPage(state.currPage));
     } else {
-      console.log(`currPage se setea a 0`);
-      setCurrPage(0);
+      dispatch(setCurrPage(0));
     }
+    getPeople({
+      variables: {
+        page: state.currPage + 1,
+      }});
   }, []);
 
-  const { loading, error, fetchMore } = useQuery(PEOPLE, {
-    variables: {
-      page: currPage + 1,
-    },
+  const [getPeople, { loading, error }] = useLazyQuery(PEOPLE, {
     onCompleted(data) {
-      console.log('onCompleted');
-      if (initialQuery.current) {
-        setRedux({
-          ...data.people,
-          currPage,
-        });
-        dispatch(setFetching(false));
-        initialQuery.current = false;
-      }
-    }
+      setPeople(data.people);
+      if (typeof goingToPage === 'number') dispatch(setCurrPage(goingToPage));
+      dispatch(setFetching(false));
+    },
+    onError(e) {
+      console.log(e);
+      localStorage.removeItem('redux');
+    },
   });
 
   async function goToPage(i:number) {
-    console.log('goToPage', i);
+    setGoingToPage(i);
     const variables = {
       page: i + 1,
     };
@@ -76,23 +69,16 @@ function App() {
       variables,
     });
     if (cache) {
-      setCurrPage(i);
-      setRedux(cache.people);
+      dispatch(setCurrPage(i));
+      setPeople(cache.people);
     }
     dispatch(setFetching(true));
-    const more = await fetchMore({variables});
-    console.log('more.data.people', more.data.people);
-    setCurrPage(i);
-    setRedux({
-      ...more.data.people,
-      currPage: i,
-    });
-    dispatch(setFetching(false));
-  }
-  const goToPrevious = async () => await goToPage(currPage-1);
-  const goToNext = async () => await goToPage(currPage+1);
-  const showPrevious = () => currPage !== 0;
-  const showNext = () => currPage !== state.maxPage;
+    getPeople({variables});
+    }
+  const goToPrevious = async () => await goToPage(state.currPage-1);
+  const goToNext = async () => await goToPage(state.currPage+1);
+  const showPrevious = () => state.currPage !== 0;
+  const showNext = () => state.currPage !== state.maxPage;
 
   return (
     <div className="App">
@@ -211,7 +197,7 @@ function App() {
 
                         {new Array(state.maxPage + 1).fill(0).map((e, i) => {
                           return <a key={i} href="#"
-                                    className={"relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 " + (i === currPage ? 'bg-gray-200' : '')}
+                                    className={"relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 " + (i === state.currPage ? 'bg-gray-200' : '')}
                                     onClick={() => goToPage(i)}>{i + 1}</a>;
                         })}
 

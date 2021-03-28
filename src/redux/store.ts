@@ -22,7 +22,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 store.subscribe(throttle(() => {
   const counterState = store.getState().counter;
   const peopleState = store.getState().people;
-  console.log('store.subscribe currPage', peopleState.currPage);
   saveState({
     counter: {
       ...counterStateDefault,

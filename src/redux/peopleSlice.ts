@@ -25,9 +25,7 @@ export const defaultState = {
   fetching: false,
 };
 
-const ls = loadState();
-console.log('ls', ls);
-const initialState: PeopleState = ls?.people || defaultState;
+const initialState: PeopleState = loadState()?.people || defaultState;
 
 export const peopleSlice = createSlice({
   name: 'people',
@@ -38,22 +36,20 @@ export const peopleSlice = createSlice({
     },
     /*setMode: (state, action: PayloadAction<mode>) => {
       state.mode = action.payload;
-    },
-    setCurrPage: (state, action: PayloadAction<mode>) => {
-      state.currPage = action.payload;
     },*/
+    setCurrPage: (state, action: PayloadAction<number>) => {
+      state.currPage = action.payload;
+    },
     setResults: (state, action: PayloadAction<any>) => {
-      console.log('setResults', action);
-      const { count, currResults, currPage } = action.payload;
+      const { count, currResults } = action.payload;
       state.count = count;
       state.currResults = currResults;
-      state.currPage = currPage;
       state.maxPage = Math.floor(count/10);
     },
   },
 });
 
-export const { setFetching, setResults/*, setCurrPage, setMode*/ } = peopleSlice.actions;
+export const { setFetching, setResults, setCurrPage/*, setMode*/ } = peopleSlice.actions;
 
 // region --------------------------------------------------------------------------------- Selectors
 // The function below is called a selector and allows us to select a value from
