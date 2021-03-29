@@ -3,7 +3,6 @@ import './App.css';
 import { useLazyQuery, gql } from '@apollo/client';
 import {client} from "./index";
 import Header from './components/Header';
-import Counter from "./redux/Counter";
 import {useDispatch, useSelector} from "react-redux";
 import {setFetching, setResults, selectPeopleState, setCurrPage, Mode, setNavigatingToPage} from "./redux/peopleSlice";
 import Search from "./components/Search";
@@ -144,8 +143,6 @@ function App() {
       <div className="container px-5 pb-12 mx-auto">
 
         <Header />
-
-        <Counter />
 
         <Search goToPage={goToPage} search={search} />
 
