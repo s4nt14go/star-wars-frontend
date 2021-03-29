@@ -1,6 +1,10 @@
 # List Star Wars characters and search by name
 
-Check the [demo link]!
+Check the [demo link](https://prod--s4nt14go-star-wars.netlify.app)!
+
+<a href="https://prod--s4nt14go-star-wars.netlify.app" align="center">
+  <img src="doc/star-wars.png" />
+</a><br /><br /><br />
 
 This repo consumes an AWS AppSync (GraphQL) API and by using Apollo is implemented an Optimistic UI: first checks if our query is already in Apollo cache, in that case shows the results right away, after that, launches the network request to the API, once we receive response from the API the results will update/overwrite the ones initially showed from the cache. Doing this the user gets fast response.
 
