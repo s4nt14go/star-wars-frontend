@@ -29,11 +29,12 @@ store.subscribe(throttle(() => {
     },
     people: {
       ...peopleStateDefault,
-      // mode: peopleState.mode,
+      mode: peopleState.mode,
       count: peopleState.count,
       currResults: peopleState.currResults,
       currPage: peopleState.currPage,
       maxPage: peopleState.maxPage,
+      nameInSearch: peopleState.nameInSearch,
     }
   });
 }, 1000));

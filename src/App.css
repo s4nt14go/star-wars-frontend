@@ -13,3 +13,8 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.bg-primary {
+  --tw-bg-opacity: 1;
+  background-color: rgba(17,211,207,var(--tw-bg-opacity));
+}
