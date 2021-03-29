@@ -24,7 +24,7 @@ function Search ({ goToPage, search }: Props) {
   function onChange(e:React.BaseSyntheticEvent) {
     dispatch(setNameSearched(e.target.value));
     if (e.target.value === '') {
-      console.log('Going into Mode.ALL ya que se borró el texto ingresado');
+      console.log('Going into Mode.ALL because entered text was removed');
       dispatch(setMode(Mode.ALL));
       return goToPage(0, Mode.ALL);
     }
