@@ -84,32 +84,26 @@ function App() {
 
   if (mounting.current) {
     console.log('mounting.current', state);
-    if (typeof state.currPage === 'number') {
+    if (state.currResults.length && (typeof state.currPage === 'number')) {
       dispatch(setCurrPage(state.currPage));
     } else {
       dispatch(setCurrPage(0));
     }
 
-    switch (state.mode) {
-      case Mode.ALL:
-        getPeople({
-          variables: {
-            page: state.currPage + 1,
-          }
-        });
-        break;
-      case Mode.SEARCH:
-        search({
-          variables: {
-            name: state.nameInSearch,
-            page: state.currPage + 1,
-          }
-        });
-        break;
-      default:
-        console.log(`Unknown mode: ${state.mode}`);
-    }
+    if (state.mode === Mode.ALL) getPeople({
+      variables: {
+        page: state.currPage + 1,
+      }
+    });
 
+    if (state.mode === Mode.SEARCH) {
+      search({
+        variables: {
+          name: state.nameInSearch,
+          page: state.currPage + 1,
+        }
+      });
+    }
     mounting.current = false;
   }
 
@@ -172,8 +166,8 @@ function App() {
               <Switch>
                 <Route path="/:id" component={Character} />
                 <Route path="/" render={(props) => (<>
-                  <Search {...props} goToPage={goToPage} search={search} />
-                  <Table {...props} goToPage={goToPage} getPeople={getPeople} />
+                  <Search {...props} goToPage={goToPage} />
+                  <Table {...props} goToPage={goToPage} />
                 </>)} />
               </Switch>
         }

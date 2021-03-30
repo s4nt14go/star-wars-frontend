@@ -1,26 +1,15 @@
-import React, {useRef} from "react";
+import React from "react";
 import {useSelector} from "react-redux";
-import {selectPeopleState, Mode} from "../redux/peopleSlice";
+import {selectPeopleState} from "../redux/peopleSlice";
 import {Route} from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import Character from "./Character";
 
-type Props = { goToPage: any, getPeople: any };
-function Search ({ goToPage, getPeople }: Props) {
+type Props = { goToPage: any };
+function Search ({ goToPage }: Props) {
 
   const state = useSelector(selectPeopleState);
-  const mounting = useRef(true);
   const history = useHistory();
-
-  if (mounting.current) {
-    console.log('mounting.current', state);
-    if (state.mode === Mode.ALL) getPeople({
-      variables: {
-        page: state.currPage + 1,
-      }
-    });
-    mounting.current = false;
-  }
 
   const goToPrevious = () => goToPage(state.currPage-1);
   const goToNext = () => goToPage(state.currPage+1);

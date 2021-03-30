@@ -1,26 +1,13 @@
-import React, {useRef} from "react";
+import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {selectPeopleState, Mode, setMode, setNameSearched} from "../redux/peopleSlice";
 
-type Props = { goToPage: any, search: any };
-function Search ({ goToPage, search }: Props) {
+type Props = { goToPage: any };
+function Search ({ goToPage }: Props) {
 
   const dispatch = useDispatch();
   const state = useSelector(selectPeopleState);
-  const mounting = useRef(true);
 
-  if (mounting.current) {
-    console.log('mounting.current', state);
-    if (state.mode === Mode.SEARCH) {
-      search({
-        variables: {
-          name: state.nameInSearch,
-          page: state.currPage + 1,
-        }
-      });
-    }
-    mounting.current = false;
-  }
   function onChange(e:React.BaseSyntheticEvent) {
     dispatch(setNameSearched(e.target.value));
     if (e.target.value === '') {
