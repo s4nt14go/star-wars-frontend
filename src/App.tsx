@@ -84,25 +84,30 @@ function App() {
 
   if (mounting.current) {
     console.log('mounting.current', state);
-    if (state.currResults.length && (typeof state.currPage === 'number')) {
+    if (typeof state.currPage === 'number') {
       dispatch(setCurrPage(state.currPage));
     } else {
       dispatch(setCurrPage(0));
     }
 
-    if (state.mode === Mode.ALL) getPeople({
-      variables: {
-        page: state.currPage + 1,
-      }
-    });
-
-    if (state.mode === Mode.SEARCH) {
-      search({
-        variables: {
-          name: state.nameInSearch,
-          page: state.currPage + 1,
-        }
-      });
+    switch (state.mode) {
+      case Mode.ALL:
+        getPeople({
+          variables: {
+            page: state.currPage + 1,
+          }
+        });
+        break;
+      case Mode.SEARCH:
+        search({
+          variables: {
+            name: state.nameInSearch,
+            page: state.currPage + 1,
+          }
+        });
+        break;
+      default:
+        console.log(`Unknown mode: ${state.mode}`);
     }
     mounting.current = false;
   }

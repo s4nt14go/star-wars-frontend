@@ -80,7 +80,7 @@ function Search ({ goToPage }: Props) {
         </div>
       </div>
 
-      <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+      {(showPrevious() || showNext()) && <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
         <div className="flex-1 flex justify-between sm:hidden">
           {showPrevious() && <div
             className="cursor-pointer relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
@@ -144,7 +144,7 @@ function Search ({ goToPage }: Props) {
             </nav>
           </div>
         </div>
-      </div>
+      </div>}
 
     </div>
 
