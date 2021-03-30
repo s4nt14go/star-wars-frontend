@@ -89,6 +89,27 @@ function App() {
     } else {
       dispatch(setCurrPage(0));
     }
+
+    switch (state.mode) {
+      case Mode.ALL:
+        getPeople({
+          variables: {
+            page: state.currPage + 1,
+          }
+        });
+        break;
+      case Mode.SEARCH:
+        search({
+          variables: {
+            name: state.nameInSearch,
+            page: state.currPage + 1,
+          }
+        });
+        break;
+      default:
+        console.log(`Unknown mode: ${state.mode}`);
+    }
+
     mounting.current = false;
   }
 
