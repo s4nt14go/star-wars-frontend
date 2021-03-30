@@ -10,7 +10,7 @@ export enum Mode {
 interface PeopleState {
   mode: Mode
   count: number;
-  currResults: [object];
+  currResults: any;
   currPage: number;
   maxPage: number;
   fetching: boolean;

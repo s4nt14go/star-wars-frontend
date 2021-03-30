@@ -7,33 +7,38 @@ import {useDispatch, useSelector} from "react-redux";
 import {setFetching, setResults, selectPeopleState, setCurrPage, Mode, setNavigatingToPage} from "./redux/peopleSlice";
 import Search from "./components/Search";
 import Table from "./components/Table";
+import {Route, Switch} from "react-router-dom";
+import Character from "./components/Character";
+
+const FIELDS = gql`
+    fragment Fields on PeoplePage {
+        count
+        next
+        previous
+        people {
+            name
+            mass
+            height
+            gender
+            homeworld
+        }
+    }
+`;
 
 const PEOPLE = gql`
+    ${FIELDS}
     query People ($page: String) {
         people (page: $page) {
-            count
-            next
-            previous
-            people {
-                name
-                mass
-                height
-            }
+            ...Fields
         }
     }
 `;
 
 const SEARCH = gql`
+    ${FIELDS}
     query Search ($name: String!, $page: String) {
         search (name: $name, page: $page) {
-            count
-            next
-            previous
-            people {
-                name
-                mass
-                height
-            }
+            ...Fields
         }
     }
 `;
@@ -136,8 +141,6 @@ function App() {
 
         <Header />
 
-        <Search goToPage={goToPage} search={search} />
-
         {
           anyError ?
             <p>Error: {anyError.toString()}</p>
@@ -145,7 +148,13 @@ function App() {
             anyLoading && !state.currResults.length ?
               <p>Loading... {anyLoading.toString}</p>
               :
-              <Table goToPage={goToPage} getPeople={getPeople} />
+              <Switch>
+                <Route path="/:id" component={Character} />
+                <Route path="/" render={(props) => (<>
+                  <Search {...props} goToPage={goToPage} search={search} />
+                  <Table {...props} goToPage={goToPage} getPeople={getPeople} />
+                </>)} />
+              </Switch>
         }
       </div>
 

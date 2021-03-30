@@ -14,6 +14,7 @@ import {
 import config from './config';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from "react-router-dom";
 
 const _config = {
   url: config.API as string,
@@ -41,7 +42,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ApolloProvider client={client as any}>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </ApolloProvider>
     </Provider>
   </React.StrictMode>,

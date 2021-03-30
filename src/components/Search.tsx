@@ -37,9 +37,7 @@ function Search ({ goToPage, search }: Props) {
     goToPage(0, Mode.SEARCH, state.nameInSearch);
   }
 
-  return <div className="">
-    <div className="">
-      <div className="h-16">
+  return <div className="h-16">
         <div className="relative">
           <input type="search" name="query" placeholder="Search characters"
                  value={state.nameInSearch}
@@ -56,9 +54,7 @@ function Search ({ goToPage, search }: Props) {
             Search
           </button>
         </div>
-      </div>
-    </div>
-  </div>;
+      </div>;
 }
 
 export default Search;

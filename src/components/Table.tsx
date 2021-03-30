@@ -1,12 +1,16 @@
 import React, {useRef} from "react";
 import {useSelector} from "react-redux";
 import {selectPeopleState, Mode} from "../redux/peopleSlice";
+import {Route} from 'react-router-dom';
+import { useHistory } from "react-router-dom";
+import Character from "./Character";
 
 type Props = { goToPage: any, getPeople: any };
 function Search ({ goToPage, getPeople }: Props) {
 
   const state = useSelector(selectPeopleState);
   const mounting = useRef(true);
+  const history = useHistory();
 
   if (mounting.current) {
     console.log('mounting.current', state);
@@ -22,6 +26,10 @@ function Search ({ goToPage, getPeople }: Props) {
   const goToNext = () => goToPage(state.currPage+1);
   const showPrevious = () => state.currPage !== 0;
   const showNext = () => state.currPage !== state.maxPage;
+
+  function rowClicked(characterIndex:number) {
+    history.push(`/${characterIndex}`);
+  }
 
   return <>
     <div className="bg-white overflow-hidden shadow sm:rounded-lg">
@@ -50,26 +58,31 @@ function Search ({ goToPage, getPeople }: Props) {
                 <tbody className="bg-white divide-y divide-gray-200">
 
                 {
-                  (state.currResults.map((person: any) => (
+                  (state.currResults.map((character: any, i:number) => (<>
 
-                    <tr key={person.name}>
+                    <tr key={character.name} className='cursor-pointer' onClick={() => rowClicked(i)}>
+
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div>
                             <div className="text-sm font-medium text-gray-900">
-                              {person.name}
+                              {character.name}
                             </div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{person.mass}</div>
+                        <div className="text-sm text-gray-900">{character.mass}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{person.height}</div>
+                        <div className="text-sm text-gray-900">{character.height}</div>
                       </td>
                     </tr>
-                  )))
+
+                    <Route path={`/${i}`} render={(props) => (
+                      <Character {...props} character={character} />
+                    )} />
+                  </>)))
                 }
                 </tbody>
               </table>
