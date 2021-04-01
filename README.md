@@ -1,4 +1,7 @@
 # List Star Wars characters and search by name
+<a>
+  <img src="https://api.netlify.com/api/v1/badges/fc4a4433-0212-48d8-a69d-6d72a8641a3b/deploy-status" />
+</a><br /><br />
 
 Check the [demo link](https://prod--s4nt14go-star-wars.netlify.app)!
 
