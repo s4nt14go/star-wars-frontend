@@ -15,6 +15,7 @@ import config from './config';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from "react-router-dom";
+import ErrorBoundary from './components/ErrorBoundary';
 
 const _config = {
   url: config.API as string,
@@ -40,13 +41,15 @@ export const client = new ApolloClient({
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <ApolloProvider client={client as any}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ApolloProvider>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <ApolloProvider client={client as any}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ApolloProvider>
+      </Provider>
+    </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
 );
