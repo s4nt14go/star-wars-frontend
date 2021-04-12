@@ -19,7 +19,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 
 let appError = false;
 store.subscribe(throttle(() => {
-  console.log('subscribe');
   if (appError) return console.log(`Abort saving state because of app error to avoid saving a possible corrupted state`);
   const peopleState = store.getState().people;
   saveState({
