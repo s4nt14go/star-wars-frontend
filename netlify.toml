@@ -11,7 +11,7 @@
 # repository branch will inherit these settings.
 [context.production]
 # For now, use dev stage values for pushes to master
-  command = "REACT_APP_STAGE=dev npm run build"
+  command = "REACT_APP_STAGE=prod npm run build"
 
 # Deploy Preview context: All Deploy Previews
 # will inherit these settings.
@@ -25,8 +25,8 @@
 
 # Specific branch context: all deploys from this specific branch will inherit
 # these settings.
-[context.prod] # 'prod' is a branch name
-  command = "REACT_APP_STAGE=prod npm run build"
+[context.work1] # 'work1' is an example branch name
+  command = "REACT_APP_STAGE=work1 npm run build"
 
 # Always redirect any request to our index.html
 # and return the status code 200.
