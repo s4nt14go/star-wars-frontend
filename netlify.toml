@@ -16,7 +16,7 @@
 # Deploy Preview context: All Deploy Previews
 # will inherit these settings.
 [context.deploy-preview]
-  command = "REACT_APP_STAGE=dev npm run build"
+  command = "yarn install --ignore-engines && REACT_APP_STAGE=dev npm run build"
 
 # Branch Deploy context: All deploys that are not in
 # an active Deploy Preview will inherit these settings.
